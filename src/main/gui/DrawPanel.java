@@ -15,6 +15,11 @@ public class DrawPanel extends JPanel {
     private static final int SQUARE_DISTANCE = 5;
     Spielfeld spielfeld = null;
 
+    public DrawPanel(){
+        super();
+        spielfeld = new Spielfeld(20,10);
+    }
+
     public Spielfeld getSpielfeld() {
         return spielfeld;
     }

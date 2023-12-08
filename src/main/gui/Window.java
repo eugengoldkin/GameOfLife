@@ -1,8 +1,13 @@
 package main.gui;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Window {
+
+
+    static DrawPanel drawPanel;
 
     public static void main(String[] args){
         JFrame jFrame = new JFrame("Game of Life");
@@ -11,7 +16,8 @@ public class Window {
 
         jFrame.setJMenuBar(getJMenuBar());
 
-        jFrame.add(getDrawPanel());
+        drawPanel = getDrawPanel();
+        jFrame.add(drawPanel);
 
         jFrame.setVisible(true);
     }
@@ -20,13 +26,19 @@ public class Window {
         JMenuBar menu = new JMenuBar();
 
         JButton button_next = new JButton("Next");
+        button_next.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
 
         menu.add(button_next);
 
         return menu;
     }
 
-    private static JPanel getDrawPanel(){
+    private static DrawPanel getDrawPanel(){
         return new DrawPanel();
     }
 
