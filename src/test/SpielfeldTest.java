@@ -8,9 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SpielfeldTest {
 
-    public final static int SPIELFELD_DEFAULT_HEIGHT = 500;
-    public final static int SPIELFELD_DEFAULT_WIDTH = 1000;
-
+    public final static int SPIELFELD_DEFAULT_HEIGHT = 12;
+    public final static int SPIELFELD_DEFAULT_WIDTH = 12;
     Spielfeld spielfeld;
 
     @BeforeEach
@@ -81,13 +80,49 @@ public class SpielfeldTest {
     }
 
     @Test
-    public void shouldReturnZeroWhenOneActiveNeighbours(){
+    public void shouldReturnOneWhenOneActiveNeighbours(){
         spielfeld.setCellValue(9,10, true);
         assertEquals(1,spielfeld.countActiveNeighbours(10, 10));
         spielfeld.setCellValue(10,10, true);
         assertEquals(1,spielfeld.countActiveNeighbours(10, 10));
     }
 
+    @Test
+    public void shouldReturnThreeWhenThreeActiveNeighbours(){
+        spielfeld.setCellValue(9,10, true);
+        assertEquals(1,spielfeld.countActiveNeighbours(10, 10));
+        spielfeld.setCellValue(10,9, true);
+        assertEquals(2,spielfeld.countActiveNeighbours(10, 10));
+        spielfeld.setCellValue(11,10, true);
+        assertEquals(3,spielfeld.countActiveNeighbours(10, 10));
+        spielfeld.setCellValue(10,10, true);
+        assertEquals(3,spielfeld.countActiveNeighbours(10, 10));
+        assertEquals(3,spielfeld.countActiveNeighbours(10, 9));
+    }
+
+    @Test
+    public void shouldUpdateToNewField(){
+        assertEquals(SPIELFELD_DEFAULT_HEIGHT, spielfeld.getHeight());
+        assertEquals(SPIELFELD_DEFAULT_WIDTH, spielfeld.getWidth());
+        boolean[][] newField = new boolean[1][1];
+        newField[0][0] = true;
+        spielfeld.setField(newField);
+        assertTrue(spielfeld.getCellValue(0,0));
+        assertFalse(spielfeld.getCellValue(0,1));
+        assertFalse(spielfeld.getCellValue(1,0));
+        assertFalse(spielfeld.getCellValue(1,1));
+        assertEquals(1, spielfeld.getHeight());
+        assertEquals(1, spielfeld.getWidth());
+    }
+
+    @Test
+    public void shouldNotUpdateToInvalidNewField(){
+        assertEquals(SPIELFELD_DEFAULT_HEIGHT, spielfeld.getHeight());
+        assertEquals(SPIELFELD_DEFAULT_WIDTH, spielfeld.getWidth());
+        assertThrows(IllegalArgumentException.class, () -> spielfeld.setField(new boolean[1][0]));
+        assertThrows(IllegalArgumentException.class, () -> spielfeld.setField(new boolean[0][1]));
+        assertThrows(IllegalArgumentException.class, () -> spielfeld.setField(new boolean[0][0]));
+    }
 
 
 }

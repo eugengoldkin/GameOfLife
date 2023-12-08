@@ -14,7 +14,7 @@ public class Spielfeld {
             throw new IllegalArgumentException("Stuff too small");
         }
         if(width > MAX_WIDTH || height > MAX_HEIGTH){
-            throw new IllegalArgumentException("Stuff too small");
+            throw new IllegalArgumentException("Stuff too large");
         }
         field = new boolean[height][width];
         for (int i = 0; i < height; i++) {
@@ -51,7 +51,7 @@ public class Spielfeld {
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
                 if(i!=0 || j!=0){
-                    if(getCellValue(height+i, width+j)){
+                    if(getCellValue(width+j, height+i)){
                         result++;
                     }
                 }
@@ -64,4 +64,14 @@ public class Spielfeld {
         return width < 0 || width >= field[0].length || height < 0 || height >= field.length;
     }
 
+    public void setField(boolean[][] field) {
+        if(field.length < MIN_HEIGTH || field[0].length < MIN_WIDTH){
+            throw new IllegalArgumentException("Stuff too small");
+        }
+        if(field[0].length > MAX_WIDTH || field.length > MAX_HEIGTH){
+            throw new IllegalArgumentException("Stuff too large");
+        }
+
+        this.field = field;
+    }
 }
